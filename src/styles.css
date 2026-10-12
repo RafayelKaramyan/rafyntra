@@ -458,8 +458,8 @@ button {
   place-items: center;
 }
 .scene-fallback svg {
-  width: 90%;
-  max-height: 90%;
+  width: 74%;
+  max-height: 74%;
   filter: drop-shadow(0 30px 35px #0006);
 }
 .loading-message {

@@ -6,7 +6,7 @@ Rafyntra turns three mathematical objects into a material laboratory. Visitors c
 
 Built by **Rafayel Karamyan**, a Frontend/UI Developer with commercial React, TypeScript, enterprise UI, and iGaming experience. This is an independent portfolio project, not a client deliverable.
 
-**Live demo:** https://rafyntra.rafayelchess.chatgpt.site
+**Live demo:** https://rafayelkaramyan.github.io/rafyntra/
 
 ## Explore
 
@@ -76,6 +76,6 @@ The exact checks performed in the authoring environment are recorded in [docs/va
 
 ## Deployment
 
-The primary demonstration is a static Sites deployment. The repository also contains a GitHub Pages workflow for an independent free host. Select **GitHub Actions** as the Pages source before running it. The Pages build sets `GITHUB_PAGES=true`, which adjusts Vite's asset base to `/rafyntra/`.
+The live demonstration is deployed with GitHub Pages. The deployment workflow builds the application with Node.js 24, runs the code-quality checks, and publishes the static output. The Pages build sets `GITHUB_PAGES=true`, which adjusts Vite's asset base to `/rafyntra/`.
 
 No backend, credentials, analytics, or data collection are needed for this experience.

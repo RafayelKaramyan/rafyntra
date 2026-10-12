@@ -34,7 +34,7 @@ A few engineering decisions behind it:
 
 This is the first project in a new series of independent frontend engineering studies.
 
-Demo: https://rafyntra.rafayelchess.chatgpt.site
+Demo: https://rafayelkaramyan.github.io/rafyntra/
 Source: https://github.com/RafayelKaramyan/rafyntra
 
 #FrontendEngineering #React #TypeScript #ThreeJS #WebGL

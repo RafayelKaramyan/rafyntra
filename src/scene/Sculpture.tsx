@@ -25,7 +25,7 @@ export function Sculpture({ state, compact, reducedMotion, signals }: SculptureP
   const finish = materials.find((item) => item.id === state.material) ?? materials[0];
 
   useEffect(() => {
-    if (root.current && !reducedMotion) root.current.scale.setScalar(compact ? 0.76 : 0.86);
+    if (root.current && !reducedMotion) root.current.scale.setScalar(compact ? 0.62 : 0.68);
   }, [state.specimen, compact, reducedMotion]);
 
   useFrame((_, delta) => {
@@ -46,7 +46,7 @@ export function Sculpture({ state, compact, reducedMotion, signals }: SculptureP
     form.current.rotation.y = t * 0.16;
     form.current.rotation.z = -0.18 + (reducedMotion ? 0 : Math.sin(t * 0.3) * 0.07);
     root.current.position.y = reducedMotion ? 0 : Math.sin(t * 0.7) * 0.065;
-    const targetScale = (compact ? 0.9 : 1) * (1 + state.expansion * 0.12);
+    const targetScale = (compact ? 0.72 : 0.78) * (1 + state.expansion * 0.12);
     root.current.scale.setScalar(smooth(root.current.scale.x, targetScale));
     rings.current.forEach((ring, index) => {
       if (ring)
@@ -71,7 +71,7 @@ export function Sculpture({ state, compact, reducedMotion, signals }: SculptureP
   );
 
   return (
-    <group ref={root}>
+    <group ref={root} scale={compact ? 0.72 : 0.78}>
       <group ref={form}>
         {state.specimen === 'helix' && (
           <mesh rotation={[0.3, 0.1, 0.2]}>
