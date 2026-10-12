@@ -1,11 +1,35 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
-test('the real scene loads and the controls update its configuration', async ({ page }) => {
+async function expectedRenderer(page: Page, browserName: string): Promise<'webgl' | 'fallback'> {
+  // Chromium projects must render the real scene. Firefox runners may lack a graphics device.
+  if (browserName !== 'firefox') return 'webgl';
+  const supported = await page.evaluate(() => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('webgl2');
+    if (!context) return false;
+    context.getExtension('WEBGL_lose_context')?.loseContext();
+    return true;
+  });
+  if (!supported) {
+    test.info().annotations.push({
+      type: 'graphics-capability',
+      description:
+        'WebGL2 is unavailable in this Firefox environment; fallback behavior is tested.',
+    });
+  }
+  return supported ? 'webgl' : 'fallback';
+}
+
+test('the available renderer loads and controls update its configuration', async ({
+  page,
+  browserName,
+}) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Matter.');
-  await expect(page.getByTestId('scene-container')).toHaveAttribute('data-renderer', 'webgl');
+  const renderer = await expectedRenderer(page, browserName);
+  await expect(page.getByTestId('scene-container')).toHaveAttribute('data-renderer', renderer);
   await page.getByRole('link', { name: 'Enter the laboratory' }).click();
   await page.getByRole('button', { name: /02.*Orbit/ }).click();
   await expect(page.getByRole('button', { name: /02.*Orbit/ })).toHaveAttribute(
@@ -47,13 +71,30 @@ test('reduced motion is respected and keyboard navigation remains available', as
   );
 });
 
-test('a lost graphics context shows the fallback and a retry can recover', async ({ page }) => {
+test('graphics failure preserves the interface and retry respects device capability', async ({
+  page,
+  browserName,
+}) => {
   await page.goto('/');
-  await expect(page.getByTestId('scene-container')).toHaveAttribute('data-renderer', 'webgl');
-  await page.locator('canvas').dispatchEvent('webglcontextlost');
+  const renderer = await expectedRenderer(page, browserName);
+  await expect(page.getByTestId('scene-container')).toHaveAttribute('data-renderer', renderer);
+  if (renderer === 'webgl') {
+    await page.locator('canvas').dispatchEvent('webglcontextlost');
+  }
   await expect(page.getByTestId('scene-container')).toHaveAttribute('data-renderer', 'fallback');
   await page.getByRole('link', { name: 'Enter the laboratory' }).click();
+  await expect(
+    page.getByRole('img', { name: 'Static illustration of the selected material' }).first(),
+  ).toBeVisible();
   await expect(page.getByText('3D rendering is unavailable.', { exact: false })).toBeVisible();
   await page.getByRole('button', { name: 'Retry 3D' }).click();
-  await expect(page.getByTestId('scene-container')).toHaveAttribute('data-renderer', 'webgl');
+  await expect(page.getByTestId('scene-container')).toHaveAttribute('data-renderer', renderer);
+  if (renderer === 'fallback') {
+    await expect(page.getByRole('button', { name: 'Retry 3D' })).toBeEnabled();
+    await page.getByRole('button', { name: /03.*Pulse/ }).click();
+    await expect(page.getByRole('button', { name: /03.*Pulse/ })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+  }
 });
