@@ -30,6 +30,12 @@ test('the available renderer loads and controls update its configuration', async
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Matter.');
   const renderer = await expectedRenderer(page, browserName);
   await expect(page.getByTestId('scene-container')).toHaveAttribute('data-renderer', renderer);
+  if (renderer === 'webgl' && browserName === 'chromium') {
+    await test.info().attach('initial-3d-scene', {
+      body: await page.screenshot(),
+      contentType: 'image/png',
+    });
+  }
   await page.getByRole('link', { name: 'Enter the laboratory' }).click();
   await page.getByRole('button', { name: /02.*Orbit/ }).click();
   await expect(page.getByRole('button', { name: /02.*Orbit/ })).toHaveAttribute(
@@ -44,6 +50,7 @@ test('the available renderer loads and controls update its configuration', async
   const slider = page.getByRole('slider');
   await slider.focus();
   await slider.press('Home');
+  await expect(slider).toHaveValue('0');
   await slider.press('ArrowRight');
   await expect(slider).toHaveValue('1');
   await page.getByRole('button', { name: 'Reset', exact: true }).click();

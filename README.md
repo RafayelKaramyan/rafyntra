@@ -72,7 +72,7 @@ scripts/       Build-size reporting
 
 ## Validation status
 
-The exact checks performed in the authoring environment are recorded in [docs/validation.md](docs/validation.md). The presence of browser specs or a CI workflow is not evidence that those checks have passed; inspect the workflow result after pushing.
+Executed checks, browser capabilities, and remaining validation limits are recorded in [docs/validation.md](docs/validation.md). Automatic Pages deployments require a successful Quality checks workflow.
 
 ## Deployment
 
