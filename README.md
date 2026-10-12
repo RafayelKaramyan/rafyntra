@@ -79,3 +79,9 @@ Executed checks, browser capabilities, and remaining validation limits are recor
 The live demonstration is deployed with GitHub Pages. The deployment workflow builds the application with Node.js 24, runs the code-quality checks, and publishes the static output. The Pages build sets `GITHUB_PAGES=true`, which adjusts Vite's asset base to `/rafyntra/`.
 
 No backend, credentials, analytics, or data collection are needed for this experience.
+
+## Assets and font notices
+
+The sculpture geometry, lighting environment, interface icons, and static SVG illustration are constructed in code. The project does not import a website theme, logo pack, 3D model, or texture collection.
+
+Manrope and Space Grotesk are bundled fonts under the SIL Open Font License 1.1. Their original copyright and license texts are included in [public/licenses](public/licenses) and copied into the production deployment.

@@ -12,7 +12,7 @@ The local bundle report measured entry JavaScript at 118,098 gzip bytes, lazy sc
 
 ## Browser coverage
 
-The [recorded CI run](https://github.com/RafayelKaramyan/rafyntra/actions/runs/38315276194) completed successfully with all nine browser scenarios. Eight passed on their first attempt; the desktop Chromium controls scenario passed on its retry after reaching the 30-second test limit. The suite now allocates 60 seconds per CI scenario and waits for the slider's Home transition before sending ArrowRight.
+The [recorded CI run](https://github.com/RafayelKaramyan/rafyntra/actions/runs/38315860949) completed successfully with all nine browser scenarios on their first attempt. The suite allocates 60 seconds per CI scenario and waits for the slider's Home transition before sending ArrowRight.
 
 | Environment              | Rendering verified                  | Other checks                                                                                                                      |
 | ------------------------ | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
